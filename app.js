@@ -42,7 +42,15 @@ app.get('/', (req, res) => {
 	res.redirect('/menu');
 });
 
-app.all('*', (req, res) => {
+// Catch all route
+app.all('*', (req, res, next) => {
+	next(new Error(req.originalUrl + ' was not found'));
+});
+
+// Global error handler
+app.use((err, req, res, next) => {
+	console.log(err.message);
+
 	res.redirect('/');
 });
 
