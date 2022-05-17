@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="/style.css">
+
+    <title>Document</title>
+</head>
+
+<body>
+
+
+    <div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Cohort</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Options</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                >
+                <% if(records.length) { for(var i=0; i < records.length; i++) { %>
+
+                    <tr>
+                        <td>
+                            <%= records[i].cohort %>
+                        </td>
+                        <td>
+                            <%= records[i].fname %>
+                        </td>
+                        <td>
+                            <%= records[i].lname %>
+                        </td>
+                        <td>
+                            <%= records[i].option_name %>
+                        </td>
+                        <td>
+                            <%= records[i].date %>
+                        </td>
+                    </tr>
+
+                    <% } } else { %>
+
+                        <tr>
+                            <td>No Records</td>
+                        </tr>
+                        <% } %>
+            </tbody>
+
+
+
+
+
+        </table>
+    </div>
+
+
+
+
+
+
+</body>
+
+</html>
