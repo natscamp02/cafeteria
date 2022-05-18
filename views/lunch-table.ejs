@@ -13,59 +13,58 @@
 
 <body>
 
+    <%- include('partials/header.ejs') %>
 
-    <div>
-        <table>
-            <thead>
-                <tr>
-                    <th>Cohort</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Options</th>
-                    <th>Date</th>
-                </tr>
-            </thead>
+        <main class="min-h-screen">
 
-            <tbody>
-                >
-                <% if(records.length) { for(var i=0; i < records.length; i++) { %>
-
-                    <tr>
-                        <td>
-                            <%= records[i].cohort %>
-                        </td>
-                        <td>
-                            <%= records[i].fname %>
-                        </td>
-                        <td>
-                            <%= records[i].lname %>
-                        </td>
-                        <td>
-                            <%= records[i].option_name %>
-                        </td>
-                        <td>
-                            <%= records[i].date %>
-                        </td>
-                    </tr>
-
-                    <% } } else { %>
-
-                        <tr>
-                            <td>No Records</td>
+            <div class="mt-12">
+                <h2 class="text-center mb-4 text-[1.6rem] font-bold">Lunch Table</h2>
+                <table class="mx-auto">
+                    <thead class="bg-gray-800 rounded-md">
+                        <tr class="w-[800px] rounded-md text-white p-4 text-left">
+                            <th class="px-12 py-2">Cohort</th>
+                            <th class="px-12 py-2">First Name</th>
+                            <th class="px-12 py-2">Last Name</th>
+                            <th class="px-12 py-2">Options</th>
+                            <th class="px-12 py-2">Date</th>
                         </tr>
-                        <% } %>
-            </tbody>
+                    </thead>
+
+                    <tbody>
+                        <% if(records.length) { for(var i=0; i < records.length; i++) { %>
+
+                            <tr>
+                                <td class="px-12 py-2">
+                                    <%= records[i].cohort %>
+                                </td>
+                                <td class="px-12 py-2">
+                                    <%= records[i].fname %>
+                                </td>
+                                <td class="px-12 py-2">
+                                    <%= records[i].lname %>
+                                </td>
+                                <td class="px-12 py-2">
+                                    <%= records[i].options %>
+                                </td>
+                                <td class="px-12 py-2">
+                                    <%= new Date(records[i].date).toLocaleDateString() %>
+                                </td>
+                            </tr>
+
+                            <% } } else { %>
+
+                                <tr>
+                                    <td colspan="5">No Records</td>
+                                </tr>
+                                <% } %>
+                    </tbody>
+                </table>
+
+            </div>
+        </main>
 
 
-
-
-
-        </table>
-    </div>
-
-
-
-
+        <%- include('partials/footer.ejs') %>
 
 
 </body>

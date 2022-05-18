@@ -38,8 +38,10 @@ app.use('/trainee', traineeRouter);
 app.use('/menu', menuRouter);
 app.use('/auth', authRouter);
 
-app.get('/', (req, res) => {
-	res.redirect('/menu');
+app.get('/', (req, res) => res.redirect('/trainee/login'));
+
+app.get('/message', (req, res) => {
+	res.render('order-created');
 });
 
 // Catch all route

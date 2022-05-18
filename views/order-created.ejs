@@ -8,11 +8,34 @@
 
     <link rel="stylesheet" href="/style.css">
 
-    <title>Document</title>
+    <title>Cafeteria App</title>
 </head>
 
 <body>
-    <h1 class="text-xl">Your order has been created</h1>
+    <%- include('partials/header.ejs') %>
+
+        <div class="min-h-screen w-full px-10 bg-gray-100 grid place-items-center">
+            <div class="bg-white rounded-lg shadow-md flex flex-wrap flex-col-reverse md:flex-col">
+                <div class="w-full py-6 px-8 text-center">
+                    <img src="https://i.pinimg.com/originals/e6/13/21/e613212546d6c27600379a26cd601365.gif"
+                        class="w-48 mx-auto">
+                    <h3 class="text-3xl font-bold uppercase mb-4">Thanks For Ordering</h3>
+                    <p>Eatee® </p>
+                </div>
+                <!-- <div class="w-full md:w-1/2 p-4 md:p-0">
+                        <img src=" https://d266cn3wcwor51.cloudfront.net/hu/landing_page/smartfit/smartfit-1903x593.gif"
+                            class="w-64 mx-auto">
+                    </div> -->
+            </div>
+        </div>
+
+
+
+
+
+
+        <%- include('partials/footer.ejs') %>
+
 </body>
 
 </html>
