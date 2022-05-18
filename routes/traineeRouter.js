@@ -14,18 +14,32 @@ router.post('/login', (req, res, next) => {
 		cohort: Number.parseInt(req.body.cohort),
 	};
 
+	// Check if trainee is in the system
 	conn.query(
 		'SELECT * FROM trainees_table WHERE cohort = ' + data.cohort + ' AND fname = ? AND lname = ?',
 		[data.fname, data.lname],
 		(err, trainees) => {
-			if (err || !trainees.length) {
-				if (err) console.log(err);
-				return res.redirect('/trainee/login');
+			if (err) {
+				console.log(err);
+				return res.redirect('/');
 			}
+			if (!trainees.length)
+				return req.flash('error', 'No trainee found with those credentials').then(() => res.redirect('/'));
 
 			const trainee = trainees[0];
 
-			res.redirect('/menu/order/' + trainee.id);
+			// Check if the trainee already made a order that day
+			const today = new Date().toISOString().split('T')[0];
+
+			conn.query(
+				`SELECT * FROM lunch_table WHERE trainee_id = ` + trainee.id + ` AND date = '` + today + `';`,
+				(err, existingTrainees) => {
+					if (err) throw err;
+					if (existingTrainees.length) throw new Error('User already made a order');
+
+					res.redirect('/menu/order/' + trainee.id);
+				}
+			);
 		}
 	);
 });

@@ -2,6 +2,7 @@ const path = require('path');
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
+const { flash } = require('express-flash-message');
 
 const traineeRouter = require('./routes/traineeRouter');
 const menuRouter = require('./routes/menuRouter');
@@ -33,16 +34,15 @@ app.use(
 	})
 );
 
+// Setting up Express flash
+app.use(flash());
+
 // Routes
 app.use('/trainee', traineeRouter);
 app.use('/menu', menuRouter);
 app.use('/auth', authRouter);
 
 app.get('/', (req, res) => res.redirect('/trainee/login'));
-
-app.get('/message', (req, res) => {
-	res.render('order-created');
-});
 
 // Catch all route
 app.all('*', (req, res, next) => {

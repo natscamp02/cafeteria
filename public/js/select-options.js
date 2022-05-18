@@ -4,7 +4,7 @@ const orderForm = document.getElementById('order_form');
 const optionsInp = document.getElementById('menu_options');
 
 function selectOptions(ev) {
-	const selectedBtn = ev.target;
+	const selectedBtn = ev.target.closest('.menu-option_btn');
 
 	// Toggle the selection
 	selectedBtn.dataset.selected = selectedBtn.dataset.selected === 'true' ? 'false' : 'true';
