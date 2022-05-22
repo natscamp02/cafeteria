@@ -6,11 +6,22 @@ const router = express.Router();
 
 router.get('/order/:trainee_id', (req, res, next) => {
 	conn.query(
-		`SELECT mot.id, mot.option_name, mc.category_name 
+		`SELECT mot.id, mot.option_name, mot.image, mc.category_name 
         FROM meal_options_table mot, meal_category mc 
         WHERE mot.meal_category = mc.id`,
 		(err, data) => {
-			res.render('menu', { options: data, trainee_id: req.params.trainee_id });
+			if (err) {
+				console.log(err);
+				return res.redirect('/');
+			}
+
+			const categories = new Set(data.map((d) => d.category_name));
+			const optsByCategory = [...categories].map((c) => ({
+				name: c,
+				options: data.filter((d) => d.category_name === c),
+			}));
+
+			res.render('menu', { optsByCategory, trainee_id: req.params.trainee_id });
 		}
 	);
 });
@@ -40,10 +51,13 @@ router.post('/order', (req, res, next) => {
 // ADMIN ONLY
 router.get('/lunch-table', protect, (req, res, next) => {
 	try {
+		const today = new Date().toISOString().split('T')[0];
+
 		conn.query(
 			`SELECT tt.cohort, tt.fname, tt.lname, lt.meal_option_ids, lt.date  
             FROM lunch_table lt, trainees_table tt 
-            WHERE lt.trainee_id = tt.id`,
+            WHERE lt.trainee_id = tt.id AND lt.date = ?`,
+			[today],
 			(err, rows) => {
 				if (err) throw err;
 

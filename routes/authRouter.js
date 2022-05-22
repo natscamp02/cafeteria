@@ -7,19 +7,27 @@ const router = express.Router();
 router.get('/login', (req, res) => {
 	res.render('login');
 });
+
 router.post('/login', async (req, res) => {
-	const hashedPassword = await bcrypt.hash(req.body.password, 12);
-
-	conn.query(
-		'SELECT * FROM users WHERE email = ? and BINARY password = ?',
-		[req.body.email, hashedPassword],
-		(err, _users) => {
-			if (err) return res.redirect('/auth/login');
-
-			req.session.isLoggedIn = true;
-			res.redirect('/menu/lunch-table');
+	conn.query('SELECT * FROM users WHERE email = ?', [req.body.email], async (err, users) => {
+		if (err) {
+			console.log(err);
+			return res.redirect(req.originalUrl);
 		}
-	);
+
+		if (!users.length) {
+			console.log('Email not found');
+			return res.redirect(req.originalUrl);
+		}
+
+		if (!(await bcrypt.compare(req.body.password, users[0].password))) {
+			console.log('Password is incorrect');
+			return res.redirect(req.originalUrl);
+		}
+
+		req.session.isLoggedIn = true;
+		res.redirect('/menu/lunch-table');
+	});
 });
 
 module.exports = router;

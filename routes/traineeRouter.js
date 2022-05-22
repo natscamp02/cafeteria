@@ -4,7 +4,9 @@ const conn = require('../db');
 const router = express.Router();
 
 router.get('/login', (req, res, next) => {
-	res.render('trainee-form');
+	req.consumeFlash('error').then((msgs) => {
+		res.render('trainee-form', { messages: msgs });
+	});
 });
 
 router.post('/login', (req, res, next) => {
@@ -34,10 +36,16 @@ router.post('/login', (req, res, next) => {
 			conn.query(
 				`SELECT * FROM lunch_table WHERE trainee_id = ` + trainee.id + ` AND date = '` + today + `';`,
 				(err, existingTrainees) => {
-					if (err) throw err;
-					if (existingTrainees.length) throw new Error('User already made a order');
+					try {
+						if (err) throw err;
+						if (existingTrainees.length) throw new Error('User already made a order');
 
-					res.redirect('/menu/order/' + trainee.id);
+						res.redirect('/menu/order/' + trainee.id);
+					} catch (error) {
+						console.log(error.message);
+
+						res.redirect('/');
+					}
 				}
 			);
 		}
